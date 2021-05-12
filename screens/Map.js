@@ -9,7 +9,7 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Circle, Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Surface } from "react-native-paper";
 
@@ -107,6 +107,7 @@ const MapPage = ({ latitud, longitud }) => {
             title={"Mi ubicacion"}
             description={"Descripcion de la ubicación"}
           />
+          <Circle></Circle>
         </MapView>
         <View style={styles.button}>
           <TouchableOpacity
