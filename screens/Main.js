@@ -8,6 +8,7 @@ const MainPage = () => {
   const [permisoGeo, setPermisoGeo] = useState(null);
   const [latitud, setLatitud] = useState(0);
   const [longitud, setLongitud] = useState(0);
+  const [prueba, setPrueba] = useState()
 
   useEffect(() => {
     (async () => {
