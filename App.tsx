@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer } from "react";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import LoginPage from "./screens/Login";
 import MainPage from "./screens/Main.js";
@@ -14,6 +14,8 @@ export default function App() {
     userName: null,
     userCI: null,
   };
+
+  const [abc, def] = useState();
 
   const authActions = (prevState: any, action: any) => {
     switch (action.type) {
