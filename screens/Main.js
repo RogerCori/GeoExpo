@@ -37,7 +37,7 @@ const MainPage = () => {
         }}
       >
         <Appbar.BackAction onPress={() => {}} />
-        <Text>Algo</Text>
+        <Text>Atras</Text>
       </Appbar.Header>
       <MapPage latitud={latitud} longitud={longitud}></MapPage>
     </View>

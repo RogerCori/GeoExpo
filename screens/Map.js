@@ -9,7 +9,7 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import MapView, { Circle, Marker } from "react-native-maps";
+import MapView, { Circle, Marker, Polygon } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Surface } from "react-native-paper";
 
@@ -62,7 +62,7 @@ const MapPage = ({ latitud, longitud }) => {
         }
       );
       let json = await request.json();
-      console.log("resouesta: ", json);
+      console.log("respuesta: ", json);
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -95,19 +95,31 @@ const MapPage = ({ latitud, longitud }) => {
           region={{
             latitude: latitud,
             longitude: longitud,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.121,
+            latitudeDelta: 0.0008,
+            longitudeDelta: 0.0008,
           }}
-          mapType={"standard"}
+          mapType = {"standard"}
           loadingEnabled={true}
+
+          userLocationUpdateInterval = {5000}
+          userLocationFastestInterval = {5000}
+          zoomEnabled = {false}
         >
           <Marker
-            coordinate={{ latitude: latitud, longitude: longitud }}
-            pinColor={"#ccc"}
-            title={"Mi ubicacion"}
-            description={"Descripcion de la ubicación"}
+            coordinate = {{ latitude: latitud, longitude: longitud }}
+            pinColor = {"#14477e"}
+            title = {"Ubicación actual"}
+            description = {userName}
           />
-          <Circle></Circle>
+          
+          <Circle
+            center = {{ latitude: -16.534680281950532, longitude: -68.09645542858074 }}
+            radius = {10}
+            strokeWidth = {3}
+            strokeColor = {"#14477e"}
+            fillColor = {"#ec9220"}
+          />
+
         </MapView>
         <View style={styles.button}>
           <TouchableOpacity
