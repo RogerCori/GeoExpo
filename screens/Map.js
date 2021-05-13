@@ -20,7 +20,8 @@ import { AuthContext } from "./../context/context";
   const [estado, setEstado] = useState(true);
   const { signOut } = useContext(AuthContext);
   const [userName, setUserName] = useState("");
-  const coordenadas = {}
+  console.log(latitud);
+  console.log(longitud);
 
   useEffect(() => {
     (async () => {
@@ -72,7 +73,7 @@ import { AuthContext } from "./../context/context";
   const Logout = () => {
     signOut();
   };
-
+  
   const [text, onChangeText] = React.useState(null);
 
   return (
