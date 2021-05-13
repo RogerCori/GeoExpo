@@ -9,17 +9,18 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import MapView, { Circle, Marker, Polygon } from "react-native-maps";
+import MapView, { Circle, Marker, Polygon, Polyline } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Surface } from "react-native-paper";
 
 import { AuthContext } from "./../context/context";
 
-const MapPage = ({ latitud, longitud }) => {
+  const MapPage = ({ latitud, longitud }) => { 
   const [boton, setBoton] = useState("");
   const [estado, setEstado] = useState(true);
   const { signOut } = useContext(AuthContext);
   const [userName, setUserName] = useState("");
+  const coordenadas = {}
 
   useEffect(() => {
     (async () => {
@@ -103,7 +104,7 @@ const MapPage = ({ latitud, longitud }) => {
 
           userLocationUpdateInterval = {5000}
           userLocationFastestInterval = {5000}
-          zoomEnabled = {false}
+          zoomEnabled = {true}
         >
           <Marker
             coordinate = {{ latitude: latitud, longitude: longitud }}
@@ -111,13 +112,18 @@ const MapPage = ({ latitud, longitud }) => {
             title = {"Ubicación actual"}
             description = {userName}
           />
-          
-          <Circle
-            center = {{ latitude: -16.534680281950532, longitude: -68.09645542858074 }}
-            radius = {10}
+
+          <Polygon
+            coordinates={[
+              { latitude: -16.534759722724974, longitude: -68.09657861111778 },
+              { latitude: -16.534701868640504, longitude: -68.09644181847167 },
+              { latitude: -16.53483300454041, longitude: -68.09634660006115 },
+              { latitude: -16.534901143747337, longitude: -68.09645791172417 },
+              { latitude: -16.534759722724974, longitude: -68.09657861111778 }
+            ]}
             strokeWidth = {3}
             strokeColor = {"#14477e"}
-            fillColor = {"#ec9220"}
+            fillColor = {"rgba(236,146,32,0.3)"}
           />
 
         </MapView>
