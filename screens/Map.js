@@ -118,8 +118,7 @@ import { AuthContext } from "./../context/context";
               { latitude: -16.534759722724974, longitude: -68.09657861111778 },
               { latitude: -16.534701868640504, longitude: -68.09644181847167 },
               { latitude: -16.53483300454041, longitude: -68.09634660006115 },
-              { latitude: -16.534901143747337, longitude: -68.09645791172417 },
-              { latitude: -16.534759722724974, longitude: -68.09657861111778 }
+              { latitude: -16.534901143747337, longitude: -68.09645791172417 }
             ]}
             strokeWidth = {3}
             strokeColor = {"#14477e"}
