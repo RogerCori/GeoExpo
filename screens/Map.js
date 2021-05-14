@@ -129,8 +129,10 @@ const MapPage = ({ navigation }) => {
                   latitude: -16.534701868640504,
                   longitude: -68.09644181847167,
                 },
-                { latitude: -16.53483300454041, 
-                  longitude: -68.09634660006115 },
+                { 
+                  latitude: -16.53483300454041, 
+                  longitude: -68.09634660006115 
+                },
                 {
                   latitude: -16.534901143747337,
                   longitude: -68.09645791172417,
@@ -140,6 +142,31 @@ const MapPage = ({ navigation }) => {
               strokeColor={"#14477e"}
               fillColor={"rgba(236,146,32,0.3)"}
             />
+
+            <Polygon
+              coordinates={[
+                {
+                  latitude: -16.542677957503024,
+                  longitude: -68.08480973307351,
+                },
+                {
+                  latitude: -16.542741321011018,
+                  longitude: -68.0850885005814,
+                },
+                { 
+                  latitude: -16.543008549489674, 
+                  longitude: -68.08504539220391 
+                },
+                {
+                  latitude: -16.542956205796212,
+                  longitude: -68.08476949858783,
+                },
+              ]}
+              strokeWidth={3}
+              strokeColor={"#14477e"}
+              fillColor={"rgba(236,146,32,0.3)"}
+            />
+
           </MapView>
           <View style={styles.button}>
             <TouchableOpacity

@@ -37,11 +37,11 @@ const Contratos = ({ navigation }) => {
               </Card>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={mapas}>
               <Card style={styles.card}>
                 <Card.Content>
-                  <Title>Contrato 2</Title>
-                  <Paragraph>En construcción</Paragraph>
+                  <Title>Casa de Don Carlos</Title>
+                  <Paragraph>Calacoto calle 14</Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
