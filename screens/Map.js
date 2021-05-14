@@ -129,7 +129,8 @@ const MapPage = ({ navigation }) => {
                   latitude: -16.534701868640504,
                   longitude: -68.09644181847167,
                 },
-                { latitude: -16.53483300454041, longitude: -68.09634660006115 },
+                { latitude: -16.53483300454041, 
+                  longitude: -68.09634660006115 },
                 {
                   latitude: -16.534901143747337,
                   longitude: -68.09645791172417,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width - 20,
-    height: Dimensions.get("window").height - 500,
+    height: Dimensions.get("window").height - 300,
   },
   button: {
     flexDirection: "row",

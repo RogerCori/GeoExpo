@@ -78,7 +78,6 @@ export function CustomDrawerContent(props) {
               </View>
             </TouchableRipple>
           </Drawer.Section>
-
           
         </View>
       </DrawerContentScrollView>
