@@ -53,10 +53,11 @@ const LoginPage = () => {
       if (typeof response == "object") {
         signIn(response);
         try {
-          await AsyncStorage.setItem("userName", response.nombre);
-          await AsyncStorage.setItem("userCI", response.ci);
+          await AsyncStorage.setItem("nombre", response.nombre);
+          await AsyncStorage.setItem("cargo", response.cargo);
+          await AsyncStorage.setItem("regional", response.regional);
         } catch (error) {
-          console.log(error);
+          console.log("Ocurrio un error : ", error);
         }
       } else if (typeof response == "string") {
         Alert.alert("Intente nuevamente", response);

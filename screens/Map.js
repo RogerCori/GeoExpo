@@ -11,23 +11,29 @@ import {
 } from "react-native";
 import MapView, { Circle, Marker, Polygon, Polyline } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Surface } from "react-native-paper";
+import { Appbar } from "react-native-paper";
+import * as Location from "expo-location";
 
 import { AuthContext } from "./../context/context";
 
-  const MapPage = ({ latitud, longitud }) => { 
+const MapPage = ({ navigation }) => {
   const [boton, setBoton] = useState("");
   const [estado, setEstado] = useState(true);
-  const { signOut } = useContext(AuthContext);
   const [userName, setUserName] = useState("");
-  console.log(latitud);
-  console.log(longitud);
+  const [text, onChangeText] = useState(null);
+
+  const [permisoGeo, setPermisoGeo] = useState(null);
+  const [latitud, setLatitud] = useState(0);
+  const [longitud, setLongitud] = useState(0);
 
   useEffect(() => {
     (async () => {
-      const nombre = await AsyncStorage.getItem("userName");
-      setUserName(nombre);
-      console.log(userName);
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      setPermisoGeo(status === "granted");
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLatitud(location.coords.latitude);
+      setLongitud(location.coords.longitude);
     })();
 
     if (estado) {
@@ -45,9 +51,6 @@ import { AuthContext } from "./../context/context";
     } else {
       setBoton("Registrar Salida");
     }
-
-    const ci = await AsyncStorage.getItem("userCI");
-    console.log(ci);
     try {
       const latLong = `${latitud}, ${longitud}`;
       const textoUbicacion = `${text}`;
@@ -70,90 +73,93 @@ import { AuthContext } from "./../context/context";
     }
   };
 
-  const Logout = () => {
-    signOut();
-  };
-  
-  const [text, onChangeText] = React.useState(null);
+  if (!permisoGeo) {
+    return <Text>Esperando permisos de Geolocalizacion</Text>;
+  }
 
   return (
-    <View style={styles.container}>
-      <Surface style={styles.surface}>
-        <Text style={{ textTransform: "capitalize", fontSize: 20 }}>
-          Bienvenido: {userName}
-        </Text>
-      </Surface>
-      <View style={styles.mapsContainer}>
-        <Text
-          style={{
-            fontSize: 18,
-            marginBottom: 10,
+    <>
+      <Appbar.Header style={{ backgroundColor: "#abc" }}>
+        <Appbar.Action
+          icon="menu"
+          onPress={() => {
+            navigation.openDrawer();
           }}
-        >
-          Tu Ubicación Actual :
-        </Text>
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: latitud,
-            longitude: longitud,
-            latitudeDelta: 0.0008,
-            longitudeDelta: 0.0008,
-          }}
-          mapType = {"standard"}
-          loadingEnabled={true}
-
-          userLocationUpdateInterval = {5000}
-          userLocationFastestInterval = {5000}
-          zoomEnabled = {true}
-        >
-          <Marker
-            coordinate = {{ latitude: latitud, longitude: longitud }}
-            pinColor = {"#14477e"}
-            title = {"Ubicación actual"}
-            description = {userName}
-          />
-
-          <Polygon
-            coordinates={[
-              { latitude: -16.534759722724974, longitude: -68.09657861111778 },
-              { latitude: -16.534701868640504, longitude: -68.09644181847167 },
-              { latitude: -16.53483300454041, longitude: -68.09634660006115 },
-              { latitude: -16.534901143747337, longitude: -68.09645791172417 }
-            ]}
-            strokeWidth = {3}
-            strokeColor = {"#14477e"}
-            fillColor = {"rgba(236,146,32,0.3)"}
-          />
-
-        </MapView>
-        <View style={styles.button}>
-          <TouchableOpacity
-            activeOpacity={0}
-            style={styles.in}
-            onPress={Registro}
+        />
+        <Appbar.Content title="Ubicacion" titleStyle={{ marginLeft: "auto" }} />
+      </Appbar.Header>
+      <View style={styles.container}>
+        <View style={styles.mapsContainer}>
+          <Text
+            style={{
+              fontSize: 18,
+              marginBottom: 10,
+            }}
           >
-            <Text>{boton}</Text>
-          </TouchableOpacity>
-
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="Dónde te encuentras?"
-          />
-
-          <TouchableOpacity
-            activeOpacity={0}
-            style={styles.in}
-            onPress={Logout}
+            Tu Ubicación Actual :
+          </Text>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: latitud,
+              longitude: longitud,
+              latitudeDelta: 0.0008,
+              longitudeDelta: 0.0008,
+            }}
+            mapType={"standard"}
+            loadingEnabled={true}
+            userLocationUpdateInterval={5000}
+            userLocationFastestInterval={5000}
+            zoomEnabled={true}
           >
-            <Text>Cerrar Sesion</Text>
-          </TouchableOpacity>
+            <Marker
+              coordinate={{ latitude: latitud, longitude: longitud }}
+              pinColor={"#14477e"}
+              title={"Ubicación actual"}
+              description={userName}
+            />
+
+            <Polygon
+              coordinates={[
+                {
+                  latitude: -16.534759722724974,
+                  longitude: -68.09657861111778,
+                },
+                {
+                  latitude: -16.534701868640504,
+                  longitude: -68.09644181847167,
+                },
+                { latitude: -16.53483300454041, longitude: -68.09634660006115 },
+                {
+                  latitude: -16.534901143747337,
+                  longitude: -68.09645791172417,
+                },
+              ]}
+              strokeWidth={3}
+              strokeColor={"#14477e"}
+              fillColor={"rgba(236,146,32,0.3)"}
+            />
+          </MapView>
+          <View style={styles.button}>
+            <TouchableOpacity
+              activeOpacity={0}
+              style={styles.in}
+              onPress={Registro}
+            >
+              <Text>{boton}</Text>
+            </TouchableOpacity>
+
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeText}
+              value={text}
+              placeholder="Dónde te encuentras?"
+            />
+          </View>
         </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
+    </>
   );
 };
 
@@ -162,7 +168,6 @@ export default MapPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#abc",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -197,16 +202,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#bbb",
   },
   input: {
-    height: 30,
     margin: 12,
     borderWidth: 1,
-  },
-  surface: {
-    padding: 8,
-    height: 80,
-    width: "80%",
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
+    padding: 15,
   },
 });

@@ -1,10 +1,20 @@
+import "react-native-gesture-handler";
 import React, { useEffect, useMemo, useReducer } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import LoginPage from "./screens/Login";
-import MainPage from "./screens/Main.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./context/context";
 import { User } from "./models/Users";
+import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { CustomDrawerContent } from "./components/DrawerContent";
+import { Provider } from "react-native-paper";
+import Seleccion from "./screens/Seleccion";
+import Contratos from "./screens/Contratos";
+import MapPage from "./screens/Map";
+import { navigationRef } from "./services/RootNavigator";
+
+const Dw = createDrawerNavigator();
 
 export default function App() {
   const initialLoginState = {
@@ -34,12 +44,46 @@ export default function App() {
     }
   };
 
+  const [loginState, dispatch] = useReducer(authActions, initialLoginState);
+
+  const authContext = useMemo(
+    () => ({
+      signIn: async (foundUser: User) => {
+        try {
+          await AsyncStorage.setItem("ci", JSON.stringify(foundUser.ci));
+        } catch (error) {
+          console.log("Error : ", error);
+        }
+        dispatch({
+          type: "LOGIN",
+          name: foundUser.nombre,
+          ci: foundUser.ci,
+        });
+      },
+      signOut: async () => {
+        try {
+          await AsyncStorage.removeItem("ci");
+        } catch (e) {
+          console.log("Error", e);
+        }
+        dispatch({ type: "LOGOUT" });
+      },
+      goToIndex : () => {
+        navigationRef.current.navigate("Seleccion");
+      },
+      goToContracts : () => {
+        navigationRef.current.navigate("Contratos");
+      }
+    }),
+    []
+  );
+
   useEffect(() => {
     setTimeout(async () => {
       let userCI;
       userCI = null;
       try {
-        userCI = await AsyncStorage.getItem("userID");
+        userCI = await AsyncStorage.getItem("ci");
       } catch (e) {
         console.log("Error", e);
       }
@@ -47,56 +91,25 @@ export default function App() {
     }, 1000);
   }, []);
 
-  const [loginState, dispatch] = useReducer(authActions, initialLoginState);
-
-  const authContext = useMemo(
-    () => ({
-      signIn: async (foundUser: User) => {
-        const userCI = String(foundUser.userCI);
-        const userName = foundUser.userName;
-        dispatch({ type: "LOGIN", name: userName, ci: userCI });
-      },
-      signOut: async () => {
-        console.log("Cerrar Sesion");
-        try {
-          await AsyncStorage.clear();
-        } catch (e) {
-          console.log("Error", e);
-        }
-        dispatch({ type: "LOGOUT" });
-      },
-    }),
-    []
-  );
-
   return (
-    <>
+    <Provider>
       <AuthContext.Provider value={authContext}>
-        {loginState.userCI !== null ? (
-          <MainPage></MainPage>
-        ) : (
-          <LoginPage></LoginPage>
-        )}
+        <NavigationContainer ref={navigationRef}>
+          {loginState.userCI !== null ? (
+            <Dw.Navigator
+              drawerContent={(props) => <CustomDrawerContent {...props} />}
+            >
+              <Dw.Screen name="Seleccion" component={Seleccion} />
+              <Dw.Screen name="Contratos" component={Contratos} />
+              <Dw.Screen name="Mapas" component={MapPage} />
+            </Dw.Navigator>
+          ) : (
+            <LoginPage></LoginPage>
+          )}
+        </NavigationContainer>
       </AuthContext.Provider>
-    </>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  mapsContainer: {
-    padding: 30,
-  },
-  map: {
-    width: Dimensions.get("window").width - 20,
-    height: Dimensions.get("window").height - 150,
-  },
-  buttons: {
-    flexDirection: "row",
-  },
-});
+const styles = StyleSheet.create({});
