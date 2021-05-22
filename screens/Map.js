@@ -127,6 +127,14 @@ const MapPage = ({ navigation }) => {
               fillColor = {"rgba(236,146,32,0.3)"}
           />
 
+          <Circle
+              center = {{ latitude: -16.508993, longitude: -68.1229588 }}
+              radius = {15}
+              strokeWidth = {3}
+              strokeColor = {"#14477e"}
+              fillColor = {"rgba(236,146,32,0.3)"}
+          />
+
           </MapView>
           <View style={styles.button}>
             <TouchableOpacity
