@@ -50,7 +50,7 @@ export default function App() {
     () => ({
       signIn: async (foundUser: User) => {
         try {
-          await AsyncStorage.setItem("ci", JSON.stringify(foundUser.ci));
+          await AsyncStorage.setItem("ci", foundUser.ci);
         } catch (error) {
           console.log("Error : ", error);
         }

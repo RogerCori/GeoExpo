@@ -1,60 +1,55 @@
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
 import {
-  Alert,
   Dimensions,
   TouchableWithoutFeedback,
   View,
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { color } from "react-native-elements/dist/helpers";
-import {
-  Card,
-  Title,
-  Button,
-  Paragraph,
-  Avatar,
-  Headline,
-  Divider,
-  Appbar,
-} from "react-native-paper";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Card, Title, Paragraph } from "react-native-paper";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { NavBar } from "./../components/AppBar";
 
 const Seleccion = ({ navigation }) => {
-  const contratos = () => {
-    navigation.navigate("Contratos");
+  const [ciUser, setCiUser] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const userCi = await AsyncStorage.getItem("ci");
+      setCiUser(userCi);
+    })();
+  });
+
+  const contratos = async () => {
+    const request = await fetch(
+      "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Contratos",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          ci: ciUser,
+        }),
+      }
+    );
+    const json = await request.json();
+    navigation.navigate("Contratos", { json: json });
   };
   return (
-    <View>
-      <Appbar.Header style={{ backgroundColor: "#ec9220" }}>
-        <Appbar.Action
-          icon="menu"
-          onPress={() => {
-            navigation.openDrawer();
-          }}
-        />
-        <Appbar.Content
-          title="Inicio"
-          titleStyle={{ marginLeft: "auto", color: "#14477e" }}
-        />
-      </Appbar.Header>
-      <Divider />
+    <>
+      <NavBar navigation={navigation} title={"Inicio"} icon={"menu"} />
       <View style={styles.scroll}>
         <ScrollView>
           <View style={{ paddingHorizontal: 35, paddingTop: 20 }}>
-
             <TouchableWithoutFeedback onPress={contratos}>
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
-                    <Icon
-                      name='map-marker'
-                      size={40}
-                      color='#ec9220'
-                      />
-                    <Title style={styles.btnTitulo}>  Marcar</Title>
+                    <Icon name="map-marker" size={40} color="#ec9220" />
+                    <Title style={styles.btnTitulo}> Marcar</Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>Lista de Contratos</Paragraph>
+                  <Paragraph style={styles.btnTexto}>
+                    Lista de Contratos
+                  </Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
@@ -63,12 +58,8 @@ const Seleccion = ({ navigation }) => {
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
-                    <Icon
-                      name='code'
-                      size={40}
-                      color='#ec9220'
-                      />
-                    <Title style={styles.btnTitulo}>  Botón 2</Title>
+                    <Icon name="code" size={40} color="#ec9220" />
+                    <Title style={styles.btnTitulo}> Botón 2</Title>
                   </View>
                   <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
                 </Card.Content>
@@ -79,22 +70,17 @@ const Seleccion = ({ navigation }) => {
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
-                    <Icon
-                      name='code'
-                      size={40}
-                      color='#ec9220'
-                      />
-                    <Title style={styles.btnTitulo}>  Botón 3</Title>
+                    <Icon name="code" size={40} color="#ec9220" />
+                    <Title style={styles.btnTitulo}> Botón 3</Title>
                   </View>
                   <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
-
           </View>
         </ScrollView>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -108,22 +94,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginVertical: 5,
     borderRadius: 20,
-    backgroundColor: '#14477e',
+    backgroundColor: "#14477e",
   },
 
   boton: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
   btnTitulo: {
-    color: 'white',
+    color: "white",
   },
   btnTexto: {
     fontSize: 13,
-    color: 'white',
+    color: "white",
     justifyContent: "center",
-    textAlign: 'center',
-  }
+    textAlign: "center",
+  },
 });

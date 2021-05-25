@@ -7,20 +7,21 @@ import {
   View,
   TouchableOpacity,
   Alert,
-  TextInput,
 } from "react-native";
-import MapView, { Circle, Marker, Polygon, Polyline } from "react-native-maps";
+import MapView, { Circle, Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Appbar } from "react-native-paper";
 import * as Location from "expo-location";
 
 import { AuthContext } from "./../context/context";
+import { NavBar } from "../components/AppBar";
 
-const MapPage = ({ navigation }) => {
+const MapPage = ({ route, navigation }) => {
+  // console.log(route.params.coords)
   const [boton, setBoton] = useState("");
   const [estado, setEstado] = useState(true);
   const [userName, setUserName] = useState("");
-  const [text, onChangeText] = useState(null);
+  const [ciUser, setCiUser] = useState("");
+  // const [text, onChangeText] = useState(null);
 
   const [permisoGeo, setPermisoGeo] = useState(null);
   const [latitud, setLatitud] = useState(0);
@@ -34,6 +35,11 @@ const MapPage = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLatitud(location.coords.latitude);
       setLongitud(location.coords.longitude);
+
+      const name = await AsyncStorage.getItem("nombre");
+      setUserName(name);
+      const ci = await AsyncStorage.getItem("ci");
+      setCiUser(ci);
     })();
 
     if (estado) {
@@ -44,24 +50,14 @@ const MapPage = ({ navigation }) => {
   }, []);
 
   const Registro = async () => {
-    Alert.alert("", "Registrado correctamente");
-    setEstado(!estado);
-    if (!estado) {
-      setBoton("Registrar Ingreso");
-    } else {
-      setBoton("Registrar Salida");
-    }
     try {
       const latLong = `${latitud}, ${longitud}`;
-      const ci = await AsyncStorage.getItem("ci")
-      //console.log(latLong);
-      //console.log(ci);
       let request = await fetch(
         "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Register",
         {
           method: "POST",
           body: JSON.stringify({
-            ci: ci,
+            ci: ciUser,
             ubicacion: latLong,
           }),
         }
@@ -71,6 +67,14 @@ const MapPage = ({ navigation }) => {
     } catch (error) {
       console.log("Error: ", error);
     }
+
+    Alert.alert("", "Registrado correctamente");
+    setEstado(!estado);
+    if (!estado) {
+      setBoton("Registrar Ingreso");
+    } else {
+      setBoton("Registrar Salida");
+    }
   };
 
   if (!permisoGeo) {
@@ -79,15 +83,7 @@ const MapPage = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header style={{ backgroundColor: "#abc" }}>
-        <Appbar.Action
-          icon="menu"
-          onPress={() => {
-            navigation.openDrawer();
-          }}
-        />
-        <Appbar.Content title="Ubicacion" titleStyle={{ marginLeft: "auto" }} />
-      </Appbar.Header>
+      <NavBar navigation={navigation} title={"Ubicacion"} icon={"menu"} />
       <View style={styles.container}>
         <View style={styles.mapsContainer}>
           <Text
@@ -119,22 +115,24 @@ const MapPage = ({ navigation }) => {
               description={userName}
             />
 
-          <Circle
-              center = {{ latitude: -16.53467975128277, longitude: -68.09644754542965 }}
-              radius = {15}
-              strokeWidth = {3}
-              strokeColor = {"#14477e"}
-              fillColor = {"rgba(236,146,32,0.3)"}
-          />
+            <Circle
+              center={{
+                latitude: -16.53467975128277,
+                longitude: -68.09644754542965,
+              }}
+              radius={15}
+              strokeWidth={3}
+              strokeColor={"#14477e"}
+              fillColor={"rgba(236,146,32,0.3)"}
+            />
 
-          <Circle
-              center = {{ latitude: -16.508993, longitude: -68.1229588 }}
-              radius = {15}
-              strokeWidth = {3}
-              strokeColor = {"#14477e"}
-              fillColor = {"rgba(236,146,32,0.3)"}
-          />
-
+            <Circle
+              center={{ latitude: -16.508993, longitude: -68.1229588 }}
+              radius={15}
+              strokeWidth={3}
+              strokeColor={"#14477e"}
+              fillColor={"rgba(236,146,32,0.3)"}
+            />
           </MapView>
           <View style={styles.button}>
             <TouchableOpacity
@@ -144,7 +142,6 @@ const MapPage = ({ navigation }) => {
             >
               <Text>{boton}</Text>
             </TouchableOpacity>
-
           </View>
         </View>
         <StatusBar style="auto" />

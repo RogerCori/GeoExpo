@@ -1,74 +1,66 @@
-import React, { Component, useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Button, Appbar, Text, Card, Title, Paragraph, FlatList} from "react-native-paper";
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Dimensions, ScrollView, TouchableWithoutFeedback } from "react-native";
+import { Card, Title, Paragraph } from "react-native-paper";
+import { NavBar } from "./../components/AppBar";
 
-const Contratos = ({ navigation }) => {
+const Contratos = ({ route, navigation }) => {
+  const [visible, setVisible] = useState(false);
+  const [dataContrato, setDataContrato] = useState([{}]);
 
-  const mapas = () => {
-    navigation.navigate("Mapas");
+  useEffect(() => {
+    if (typeof route.params.json !== "string") {
+      setVisible(false);
+      setDataContrato(route.params.json);
+    } else {
+      setVisible(true);
+    }
+  });
+
+  const mapas = (id_contrato) => {
+    console.log(id_contrato);
+    navigation.navigate("Mapas", {
+      coords: "Algo viene aqui",
+    });
   };
+
   return (
-    <View>
-      <Appbar.Header style={{ backgroundColor: "#ec9220" }}>
-        <Appbar.Action
-          icon="menu"
-          onPress={() => {
-            navigation.openDrawer();
-          }}
-        />
-        <Appbar.Content title="Contratos" titleStyle={{ marginLeft: "auto", color: "#14477e"}} />
-      </Appbar.Header>
+    <>
+      <NavBar navigation={navigation} title={"Contratos"} icon={"menu"} />
       <View style={styles.scroll}>
         <ScrollView>
-          <View style={{ paddingHorizontal: 35 }}>
-
-            <TouchableWithoutFeedback onPress={mapas}>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>Totes</Title>
-                  <Paragraph>Av. Roma #6815 </Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback onPress={mapas}>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>En estos campos quiero jalar datos</Title>
-                  <Paragraph>Aqui tambien, dependiendo de cada empleado</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>Contrato 3</Title>
-                  <Paragraph>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>Contrato 4</Title>
-                  <Paragraph>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
+          <View style={{ paddingHorizontal: 35, paddingTop: 20 }}>
+            {!visible ? (
+              dataContrato.map((contrato, index) => {
+                return (
+                  <TouchableWithoutFeedback
+                    onPress={() => {
+                      mapas(contrato.id_contrato);
+                    }}
+                    key={index}
+                  >
+                    <Card style={styles.card}>
+                      <Card.Content>
+                        <Title>{contrato.nom_empresa}</Title>
+                        <Paragraph>{contrato.direccion}</Paragraph>
+                      </Card.Content>
+                    </Card>
+                  </TouchableWithoutFeedback>
+                );
+              })
+            ) : (
+              <TouchableWithoutFeedback onPress={navigation.goBack}>
+                <Card style={styles.card}>
+                  <Card.Content>
+                    <Title>{route.params.json}</Title>
+                    <Paragraph>Presione para ir atras</Paragraph>
+                  </Card.Content>
+                </Card>
+              </TouchableWithoutFeedback>
+            )}
           </View>
         </ScrollView>
       </View>
-    </View>
+    </>
   );
 };
 

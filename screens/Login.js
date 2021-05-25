@@ -17,6 +17,7 @@ import { useTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthContext } from "./../context/context";
+import { LoginService } from "../services/LoginService";
 
 const LoginPage = () => {
   const { colors } = useTheme();
@@ -38,32 +39,18 @@ const LoginPage = () => {
   };
 
   const Login = async (userCI, password) => {
-    try {
-      let request = await fetch(
-        "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Login",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            ci: userCI,
-            password: password,
-          }),
-        }
-      );
-      let response = await request.json();
-      if (typeof response == "object") {
-        signIn(response);
-        try {
-          await AsyncStorage.setItem("nombre", response.nombre);
-          await AsyncStorage.setItem("cargo", response.cargo);
-          await AsyncStorage.setItem("regional", response.regional);
-        } catch (error) {
-          console.log("Ocurrio un error : ", error);
-        }
-      } else if (typeof response == "string") {
-        Alert.alert("Intente nuevamente", response);
+    const response = await LoginService(userCI, password);
+    if (typeof response == "object") {
+      signIn(response);
+      try {
+        await AsyncStorage.setItem("nombre", response.nombre);
+        await AsyncStorage.setItem("cargo", response.cargo);
+        await AsyncStorage.setItem("regional", response.regional);
+      } catch (error) {
+        console.log("Error al guardar en AsyncStorage : ", error);
       }
-    } catch (error) {
-      console.log(error);
+    } else if (typeof response == "string") {
+      Alert.alert("Intente nuevamente", response);
     }
   };
 
