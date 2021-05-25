@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,10 +6,11 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Button, Appbar, Text, Card, Title, Paragraph} from "react-native-paper";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button, Appbar, Text, Card, Title, Paragraph, FlatList} from "react-native-paper";
+import axios from 'axios'
 
 const Contratos = ({ navigation }) => {
+
   const mapas = () => {
     navigation.navigate("Mapas");
   };
@@ -64,23 +65,6 @@ const Contratos = ({ navigation }) => {
               </Card>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>Contrato 5</Title>
-                  <Paragraph>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <Title>Contrato 6</Title>
-                  <Paragraph>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
           </View>
         </ScrollView>
       </View>

@@ -55,14 +55,16 @@ const MapPage = ({ navigation }) => {
       const latLong = `${latitud}, ${longitud}`;
       const textoUbicacion = `${text}`;
       const ci = await AsyncStorage.getItem("ci")
-      console.log(textoUbicacion);
+      //console.log(textoUbicacion);
+      //console.log(latLong);
+      //console.log(ci);
       let request = await fetch(
         "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Register",
         {
           method: "POST",
           body: JSON.stringify({
             ci: ci,
-            geo: latLong,
+            ubicacion: latLong,
             texto: textoUbicacion,
           }),
         }
