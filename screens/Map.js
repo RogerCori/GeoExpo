@@ -53,9 +53,7 @@ const MapPage = ({ navigation }) => {
     }
     try {
       const latLong = `${latitud}, ${longitud}`;
-      const textoUbicacion = `${text}`;
       const ci = await AsyncStorage.getItem("ci")
-      //console.log(textoUbicacion);
       //console.log(latLong);
       //console.log(ci);
       let request = await fetch(
@@ -65,7 +63,6 @@ const MapPage = ({ navigation }) => {
           body: JSON.stringify({
             ci: ci,
             ubicacion: latLong,
-            texto: textoUbicacion,
           }),
         }
       );
@@ -148,12 +145,6 @@ const MapPage = ({ navigation }) => {
               <Text>{boton}</Text>
             </TouchableOpacity>
 
-            <TextInput
-              style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
-              placeholder="Dónde te encuentras?"
-            />
           </View>
         </View>
         <StatusBar style="auto" />

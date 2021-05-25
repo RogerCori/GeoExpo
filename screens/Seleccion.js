@@ -91,38 +91,6 @@ const Seleccion = ({ navigation }) => {
               </Card>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <View style={styles.boton}>
-                    <Icon
-                      name='code'
-                      size={40}
-                      color='#ec9220'
-                      />
-                    <Title style={styles.btnTitulo}>  Botón 4</Title>
-                  </View>
-                  <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback>
-              <Card style={styles.card}>
-                <Card.Content>
-                  <View style={styles.boton}>
-                    <Icon
-                      name='code'
-                      size={40}
-                      color='#ec9220'
-                      />
-                    <Title style={styles.btnTitulo}>  Botón 5</Title>
-                  </View>
-                  <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
-                </Card.Content>
-              </Card>
-            </TouchableWithoutFeedback>
-
           </View>
         </ScrollView>
       </View>
