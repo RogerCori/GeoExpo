@@ -40,8 +40,9 @@ const Contratos = ({ route, navigation }) => {
                   >
                     <Card style={styles.card}>
                       <Card.Content>
-                        <Title>{contrato.nom_empresa}</Title>
+                        <Title>{contrato.nom_empresa}{" - "}{contrato.nom_sucursal}</Title>
                         <Paragraph>{contrato.direccion}</Paragraph>
+                        <Paragraph>{"Horario: "}{contrato.hora_inicio}{" - "}{contrato.hora_final}</Paragraph>
                       </Card.Content>
                     </Card>
                   </TouchableWithoutFeedback>
