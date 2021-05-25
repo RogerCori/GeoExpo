@@ -14,9 +14,12 @@ import * as Location from "expo-location";
 
 import { AuthContext } from "./../context/context";
 import { NavBar } from "../components/AppBar";
+import { Headline } from "react-native-paper";
+import { RegisterService } from "../services/RegisterService";
 
 const MapPage = ({ route, navigation }) => {
-  // console.log(route.params.coords)
+  // console.log(route.params);
+
   const [boton, setBoton] = useState("");
   const [estado, setEstado] = useState(true);
   const [userName, setUserName] = useState("");
@@ -50,24 +53,9 @@ const MapPage = ({ route, navigation }) => {
   }, []);
 
   const Registro = async () => {
-    try {
-      const latLong = `${latitud}, ${longitud}`;
-      let request = await fetch(
-        "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Register",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            ci: ciUser,
-            ubicacion: latLong,
-          }),
-        }
-      );
-      let json = await request.json();
-      console.log("respuesta: ", json);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-
+    const latLong = `${latitud}, ${longitud}`;
+    const response = await RegisterService(ciUser, latLong, route.params.id_contrato)
+    console.log(response)
     Alert.alert("", "Registrado correctamente");
     setEstado(!estado);
     if (!estado) {
@@ -86,14 +74,15 @@ const MapPage = ({ route, navigation }) => {
       <NavBar navigation={navigation} title={"Ubicacion"} icon={"menu"} />
       <View style={styles.container}>
         <View style={styles.mapsContainer}>
-          <Text
+          <Headline
             style={{
               fontSize: 18,
               marginBottom: 10,
+              textAlign: "center",
             }}
           >
-            Tu Ubicación Actual :
-          </Text>
+            Tu Ubicación Actual
+          </Headline>
           <MapView
             style={styles.map}
             region={{
@@ -117,18 +106,10 @@ const MapPage = ({ route, navigation }) => {
 
             <Circle
               center={{
-                latitude: -16.53467975128277,
-                longitude: -68.09644754542965,
+                latitude: +route.params.center.split(",")[0],
+                longitude: +route.params.center.split(",")[1],
               }}
-              radius={15}
-              strokeWidth={3}
-              strokeColor={"#14477e"}
-              fillColor={"rgba(236,146,32,0.3)"}
-            />
-
-            <Circle
-              center={{ latitude: -16.508993, longitude: -68.1229588 }}
-              radius={15}
+              radius={+route.params.id_contrato}
               strokeWidth={3}
               strokeColor={"#14477e"}
               fillColor={"rgba(236,146,32,0.3)"}
@@ -163,7 +144,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width - 20,
-    height: Dimensions.get("window").height - 300,
+    height: Dimensions.get("window").height - 250,
   },
   button: {
     flexDirection: "row",

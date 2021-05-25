@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Dimensions, ScrollView, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { NavBar } from "./../components/AppBar";
 
@@ -16,10 +22,11 @@ const Contratos = ({ route, navigation }) => {
     }
   });
 
-  const mapas = (id_contrato) => {
-    console.log(id_contrato);
+  const mapas = (id_contrato, centro, metros) => {
     navigation.navigate("Mapas", {
-      coords: "Algo viene aqui",
+      id_contrato: id_contrato,
+      center: centro,
+      radius: metros,
     });
   };
 
@@ -34,15 +41,22 @@ const Contratos = ({ route, navigation }) => {
                 return (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      mapas(contrato.id_contrato);
+                      mapas(contrato.id_contrato, contrato.centro, contrato.metros);
                     }}
                     key={index}
                   >
                     <Card style={styles.card}>
                       <Card.Content>
-                        <Title>{contrato.nom_empresa}{" - "}{contrato.nom_sucursal}</Title>
+                        <Title>
+                          {contrato.nom_empresa} - {contrato.nom_sucursal}
+                        </Title>
                         <Paragraph>{contrato.direccion}</Paragraph>
-                        <Paragraph>{"Horario: "}{contrato.hora_inicio}{" - "}{contrato.hora_final}</Paragraph>
+                        <Paragraph>
+                          {"Horario: "}
+                          {contrato.hora_inicio}
+                          {" - "}
+                          {contrato.hora_final}
+                        </Paragraph>
                       </Card.Content>
                     </Card>
                   </TouchableWithoutFeedback>
