@@ -41,8 +41,8 @@ const Contratos = ({ navigation }) => {
             <TouchableWithoutFeedback onPress={mapas}>
               <Card style={styles.card}>
                 <Card.Content>
-                  <Title>Casa de Don Carlos</Title>
-                  <Paragraph>Calacoto calle 14</Paragraph>
+                  <Title>En estos campos quiero jalar datos</Title>
+                  <Paragraph>Aqui tambien, dependiendo de cada empleado</Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
