@@ -56,6 +56,7 @@ const MapPage = ({ route, navigation }) => {
     const latLong = `${latitud}, ${longitud}`;
     const response = await RegisterService(ciUser, latLong, route.params.id_contrato)
     console.log(response)
+    //console.log(estado)
     Alert.alert("", "Registrado correctamente");
     setEstado(!estado);
     if (!estado) {

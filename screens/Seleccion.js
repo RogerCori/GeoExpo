@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
+  Alert,
   StyleSheet,
 } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
@@ -54,26 +55,51 @@ const Seleccion = ({ navigation }) => {
               </Card>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback>
+
+
+            <TouchableWithoutFeedback onPress={() => {
+              Alert.alert(
+                "En construcción",
+                "Aún no está disponible ésta opción",
+                [{
+                    text: "Ok",
+                    onPress: () => console.log("No disponible"),
+                    style: "cancel",
+                },],
+                { cancelable: true }
+              );
+            }}>
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
-                    <Icon name="code" size={40} color="#ec9220" />
-                    <Title style={styles.btnTitulo}> Botón 2</Title>
+                    <Icon name="commenting" size={40} color="#ec9220" />
+                    <Title style={styles.btnTitulo}> Mensaje</Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
+                  <Paragraph style={styles.btnTexto}>Envía mensajes al supervisor</Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={() => {
+              Alert.alert(
+                "En construcción",
+                "Aún no está disponible ésta opción",
+                [{
+                    text: "Ok",
+                    onPress: () => console.log("No disponible"),
+                    style: "cancel",
+                },],
+                { cancelable: true }
+              );
+            }}>
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
-                    <Icon name="code" size={40} color="#ec9220" />
-                    <Title style={styles.btnTitulo}> Botón 3</Title>
+                    <Icon name="flask" size={40} color="#ec9220" />
+                    <Title style={styles.btnTitulo}> Suministros</Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>En construcción</Paragraph>
+                  <Paragraph style={styles.btnTexto}>Suministros por lugar</Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>

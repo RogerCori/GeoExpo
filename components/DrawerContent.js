@@ -41,21 +41,19 @@ export function CustomDrawerContent(props) {
               <Avatar
                 overlayContainerStyle={{ backgroundColor: "grey" }}
                 rounded
-                size={50}
+                size={80}
                 source={{
                   uri: "https://picsum.photos/id/1005/300",
                 }}
               />
-              <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>{user.nombre}</Title>
-                <Caption style={styles.caption}>{user.cargo}</Caption>
-              </View>
             </View>
           </View>
 
           <Drawer.Section>
-            <View style={styles.preference}>
-              <Title style={styles.title}>Regional : {user.regional}</Title>
+            <View style={styles.navbar}>
+              <Title style={styles.title}>{user.nombre}</Title>
+              <Caption style={styles.caption}>Cargo:      {user.cargo}</Caption>
+              <Caption style={styles.caption}>Regional:  {user.regional}</Caption>
             </View>
           </Drawer.Section>
 
@@ -155,6 +153,12 @@ const styles = StyleSheet.create({
   },
   preference: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  navbar: {
+    flexDirection: "column",
     justifyContent: "space-between",
     paddingVertical: 12,
     paddingHorizontal: 16,
