@@ -52,11 +52,14 @@ const MapPage = ({ route, navigation }) => {
     }
   }, []);
 
+
   const Registro = async () => {
     const latLong = `${latitud}, ${longitud}`;
-    const response = await RegisterService(ciUser, latLong, route.params.id_contrato)
+    
+    const aux = estado;
+    console.log(estado)
+    const response = await RegisterService(ciUser, latLong, route.params.id_contrato, aux)
     console.log(response)
-    //console.log(estado)
     Alert.alert("", "Registrado correctamente");
     setEstado(!estado);
     if (!estado) {

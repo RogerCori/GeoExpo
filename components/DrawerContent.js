@@ -23,11 +23,13 @@ export function CustomDrawerContent(props) {
       let nombre = await AsyncStorage.getItem("nombre");
       let cargo = await AsyncStorage.getItem("cargo");
       let regional = await AsyncStorage.getItem("regional");
+      let imagen = await AsyncStorage.getItem("imagen");
 
       setUser({
         nombre: nombre,
         cargo: cargo,
         regional: regional,
+        imagen: imagen,
       });
     })();
   }, []);
@@ -43,7 +45,7 @@ export function CustomDrawerContent(props) {
                 rounded
                 size={80}
                 source={{
-                  uri: "https://picsum.photos/id/1005/300",
+                  uri: "https://www.totes.com.bo/App_totes/web/"+user.imagen,
                 }}
               />
             </View>

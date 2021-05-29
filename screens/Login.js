@@ -46,6 +46,7 @@ const LoginPage = () => {
         await AsyncStorage.setItem("nombre", response.nombre);
         await AsyncStorage.setItem("cargo", response.cargo);
         await AsyncStorage.setItem("regional", response.regional);
+        await AsyncStorage.setItem("imagen", response.imagen);
       } catch (error) {
         console.log("Error al guardar en AsyncStorage : ", error);
       }
