@@ -113,7 +113,7 @@ const MapPage = ({ route, navigation }) => {
                 latitude: +route.params.center.split(",")[0],
                 longitude: +route.params.center.split(",")[1],
               }}
-              radius={+route.params.id_contrato}
+              radius={+route.params.radius}
               strokeWidth={3}
               strokeColor={"#14477e"}
               fillColor={"rgba(236,146,32,0.3)"}

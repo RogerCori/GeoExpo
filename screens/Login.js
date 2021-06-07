@@ -92,7 +92,7 @@ const LoginPage = () => {
         <View style={styles.action}>
           <FontAwesome name="user-o" color={colors.text} size={20} />
           <TextInput
-            placeholder="CI"
+            placeholder="Carnet de identidad"
             placeholderTextColor="#666666"
             style={[
               styles.textInput,
@@ -121,7 +121,7 @@ const LoginPage = () => {
         <View style={styles.action}>
           <Feather name="lock" color={colors.text} size={20} />
           <TextInput
-            placeholder="Contraseña"
+            placeholder="Nro. de celular"
             placeholderTextColor="#666666"
             secureTextEntry={togglePassword ? true : false}
             style={[
