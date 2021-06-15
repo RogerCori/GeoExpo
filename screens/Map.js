@@ -46,9 +46,9 @@ const MapPage = ({ route, navigation }) => {
     })();
 
     if (estado) {
-      setBoton("Registrar Ingreso");
+      setBoton("Registrarse");
     } else {
-      setBoton("Registrar Salida");
+      setBoton("Registrarse");
     }
   }, []);
 
@@ -63,9 +63,9 @@ const MapPage = ({ route, navigation }) => {
     Alert.alert("", "Registrado correctamente");
     setEstado(!estado);
     if (!estado) {
-      setBoton("Registrar Ingreso");
+      setBoton("Registrarse");
     } else {
-      setBoton("Registrar Salida");
+      setBoton("Registrarse");
     }
   };
 
