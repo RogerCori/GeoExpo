@@ -16,6 +16,7 @@ import { AuthContext } from "./../context/context";
 import { NavBar } from "../components/AppBar";
 import { Headline } from "react-native-paper";
 import { RegisterService } from "../services/RegisterService";
+import { Button } from "react-native-elements/dist/buttons/Button";
 
 const MapPage = ({ route, navigation }) => {
   // console.log(route.params);
@@ -25,6 +26,8 @@ const MapPage = ({ route, navigation }) => {
   const [userName, setUserName] = useState("");
   const [ciUser, setCiUser] = useState("");
   // const [text, onChangeText] = useState(null);
+  const [ayuda, setAyuda] = useState("");
+
 
   const [permisoGeo, setPermisoGeo] = useState(null);
   const [latitud, setLatitud] = useState(0);
@@ -44,12 +47,15 @@ const MapPage = ({ route, navigation }) => {
       const ci = await AsyncStorage.getItem("ci");
       setCiUser(ci);
     })();
-
+    
     if (estado) {
-      setBoton("Registrarse");
+      setBoton("Registrarse in");
+      //setAyuda("Salida");
     } else {
-      setBoton("Registrarse");
+      setBoton("Registrarse out");
+      //setAyuda("Entrada");
     }
+    
   }, []);
 
 
@@ -60,13 +66,17 @@ const MapPage = ({ route, navigation }) => {
     console.log(estado)
     const response = await RegisterService(ciUser, latLong, route.params.id_contrato, aux)
     console.log(response)
-    Alert.alert("", "Registrado correctamente");
+    Alert.alert("Listo !", "Registrado correctamente");
     setEstado(!estado);
+    
     if (!estado) {
-      setBoton("Registrarse");
+      setBoton("Registrarse in");
+      //setAyuda("Salida");
     } else {
-      setBoton("Registrarse");
+      setBoton("Registrarse out");
+      //setAyuda("Ingreso");
     }
+    
   };
 
   if (!permisoGeo) {
@@ -85,7 +95,9 @@ const MapPage = ({ route, navigation }) => {
               textAlign: "center",
             }}
           >
-            Tu Ubicación Actual
+
+            Su ubicación Actual:
+
           </Headline>
           <MapView
             style={styles.map}
@@ -120,14 +132,17 @@ const MapPage = ({ route, navigation }) => {
             />
           </MapView>
           <View style={styles.button}>
-            <TouchableOpacity
+
+              <TouchableOpacity
               activeOpacity={0}
               style={styles.in}
               onPress={Registro}
             >
-              <Text>{boton}</Text>
+              <Text style={{ fontSize: 22 }}>{boton}</Text>
             </TouchableOpacity>
+
           </View>
+
         </View>
         <StatusBar style="auto" />
       </View>
