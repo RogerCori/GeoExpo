@@ -49,10 +49,10 @@ const MapPage = ({ route, navigation }) => {
     })();
     
     if (estado) {
-      setBoton("Registrarse in");
+      setBoton("Registrarse");
       //setAyuda("Salida");
     } else {
-      setBoton("Registrarse out");
+      setBoton("Registrarse");
       //setAyuda("Entrada");
     }
     
@@ -70,10 +70,10 @@ const MapPage = ({ route, navigation }) => {
     setEstado(!estado);
     
     if (!estado) {
-      setBoton("Registrarse in");
+      setBoton("Registrarse");
       //setAyuda("Salida");
     } else {
-      setBoton("Registrarse out");
+      setBoton("Registrarse");
       //setAyuda("Ingreso");
     }
     

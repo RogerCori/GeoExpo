@@ -45,6 +45,7 @@ export function CustomDrawerContent(props) {
                 rounded
                 size={80}
                 source={{
+                  //uri: "https://www.totes.com.bo/App_totes/web/"+user.imagen,
                   uri: "https://www.totes.com.bo/App_totes/web/"+user.imagen,
                 }}
               />
@@ -95,7 +96,7 @@ export function CustomDrawerContent(props) {
               [
                 {
                   text: "Cancelar",
-                  onPress: () => console.log("Cancelar Cierre de sesion"),
+                  onPress: () => console.log("Cancelar cierre de sesión"),
                   style: "cancel",
                 },
                 {

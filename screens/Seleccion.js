@@ -35,6 +35,7 @@ const Seleccion = ({ navigation }) => {
     const json = await request.json();
     navigation.navigate("Contratos", { json: json });
   };
+
   return (
     <>
       <NavBar navigation={navigation} title={"Inicio"} icon={"menu"} />
@@ -108,7 +109,7 @@ const Seleccion = ({ navigation }) => {
             <TouchableWithoutFeedback onPress={() => {
               Alert.alert(
                 "Solo para personal autorizado",
-                "C.I. invalido",
+                "C.I. inválido",
                 [{
                     text: "Ok",
                     onPress: () => console.log("No disponible"),
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#14477e",
   },
-
   boton: {
     flex: 1,
     flexDirection: "row",

@@ -1,6 +1,7 @@
 export const LoginService = async (userCI, password) => {
   try {
     let request = await fetch(
+      //"https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Login",
       "https://www.totes.com.bo/App_totes/controllers/servicio.php?service=Login",
       {
         method: "POST",
