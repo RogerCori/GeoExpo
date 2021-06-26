@@ -28,7 +28,6 @@ const MapPage = ({ route, navigation }) => {
   // const [text, onChangeText] = useState(null);
   const [ayuda, setAyuda] = useState("");
 
-
   const [permisoGeo, setPermisoGeo] = useState(null);
   const [latitud, setLatitud] = useState(0);
   const [longitud, setLongitud] = useState(0);
@@ -57,6 +56,8 @@ const MapPage = ({ route, navigation }) => {
     }
     
   }, []);
+
+
 
 
   const Registro = async () => {

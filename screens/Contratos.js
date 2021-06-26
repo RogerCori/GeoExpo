@@ -45,18 +45,13 @@ const Contratos = ({ route, navigation }) => {
                     }}
                     key={index}
                   >
+                    
                     <Card style={styles.card}>
                       <Card.Content>
-                        <Title>
-                          {contrato.nom_empresa} - {contrato.nom_sucursal}
-                        </Title>
+                        <Title style={styles.titulo}>{contrato.nom_empresa} - {contrato.nom_sucursal}</Title>
+                        <Paragraph style={styles.days}>{"Dias: "}{contrato.dias}</Paragraph>
+                        <Paragraph style={styles.hora}>{"Horario: "}{contrato.hora_inicio}{" - "}{contrato.hora_final}</Paragraph>
                         <Paragraph>{contrato.direccion}</Paragraph>
-                        <Paragraph>
-                          {"Horario: "}
-                          {contrato.hora_inicio}
-                          {" - "}
-                          {contrato.hora_final}
-                        </Paragraph>
                       </Card.Content>
                     </Card>
                   </TouchableWithoutFeedback>
@@ -67,7 +62,7 @@ const Contratos = ({ route, navigation }) => {
                 <Card style={styles.card}>
                   <Card.Content>
                     <Title>{route.params.json}</Title>
-                    <Paragraph>Presione para ir atras</Paragraph>
+                    <Paragraph>Presione para volver atras</Paragraph>
                   </Card.Content>
                 </Card>
               </TouchableWithoutFeedback>
@@ -87,5 +82,18 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 5,
+  },
+  titulo: {
+    fontSize: 18,
+    color: "#ec9220",
+  },
+  days: {
+    fontSize: 18,
+    color: "#14477e",
+  },
+  hora: {
+    fontSize: 15,
+    color: "#14477e",
+    backgroundColor: "#ec9220",
   },
 });
