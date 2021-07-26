@@ -121,16 +121,30 @@ const MapPage = ({ route, navigation }) => {
               description={userName}
             />
 
+            
+
+            <Circle
+              center={{
+                latitude: +route.params.center.split(",")[0],
+                longitude: +route.params.center.split(",")[1],
+              }}
+              radius={+route.params.radius+10}
+              strokeWidth={0}
+              strokeColor={"#FFB66D"}
+              fillColor={"rgba(255,152,49,0.5)"}
+            />
+
             <Circle
               center={{
                 latitude: +route.params.center.split(",")[0],
                 longitude: +route.params.center.split(",")[1],
               }}
               radius={+route.params.radius}
-              strokeWidth={3}
-              strokeColor={"#14477e"}
-              fillColor={"rgba(236,146,32,0.3)"}
+              strokeWidth={0}
+              strokeColor={"#FF8102"}
+              fillColor={"rgba(255,129,2,0.2)"}
             />
+
           </MapView>
           <View style={styles.button}>
 

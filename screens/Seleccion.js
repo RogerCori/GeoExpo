@@ -60,8 +60,8 @@ const Seleccion = ({ navigation }) => {
 
             <TouchableWithoutFeedback onPress={() => {
               Alert.alert(
-                "En construcción",
-                "Aún no está disponible ésta opción",
+                "Solo para personal autorizado",
+                "C.I. inválido",
                 [{
                     text: "Ok",
                     onPress: () => console.log("No disponible"),
@@ -84,8 +84,8 @@ const Seleccion = ({ navigation }) => {
 
             <TouchableWithoutFeedback onPress={() => {
               Alert.alert(
-                "En construcción",
-                "Aún no está disponible ésta opción",
+                "Solo para personal autorizado",
+                "C.I. inválido",
                 [{
                     text: "Ok",
                     onPress: () => console.log("No disponible"),
