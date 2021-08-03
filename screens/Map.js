@@ -46,7 +46,7 @@ const MapPage = ({ route, navigation }) => {
       const ci = await AsyncStorage.getItem("ci");
       setCiUser(ci);
     })();
-    
+
     if (estado) {
       setBoton("Registrarse");
       //setAyuda("Salida");
@@ -54,7 +54,7 @@ const MapPage = ({ route, navigation }) => {
       setBoton("Registrarse");
       //setAyuda("Entrada");
     }
-    
+
   }, []);
 
 
@@ -62,14 +62,14 @@ const MapPage = ({ route, navigation }) => {
 
   const Registro = async () => {
     const latLong = `${latitud}, ${longitud}`;
-    
+
     const aux = estado;
     console.log(estado)
     const response = await RegisterService(ciUser, latLong, route.params.id_contrato, aux)
     console.log(response)
     Alert.alert("Listo !", "Registrado correctamente");
     setEstado(!estado);
-    
+
     if (!estado) {
       setBoton("Registrarse");
       //setAyuda("Salida");
@@ -77,11 +77,11 @@ const MapPage = ({ route, navigation }) => {
       setBoton("Registrarse");
       //setAyuda("Ingreso");
     }
-    
+
   };
 
   if (!permisoGeo) {
-    return <Text>Esperando permisos de Geolocalizacion</Text>;
+    return <Text>Esperando permisos de Geolocalización</Text>;
   }
 
   return (
@@ -108,12 +108,18 @@ const MapPage = ({ route, navigation }) => {
               latitudeDelta: 0.0008,
               longitudeDelta: 0.0008,
             }}
-            mapType={"standard"}
-            loadingEnabled={true}
-            userLocationUpdateInterval={5000}
-            userLocationFastestInterval={5000}
+            mapType={"satellite"}
+            //loadingEnabled={true}
+            //liteMode={true}
+            //onRegionChangeComplete={this.onRegionChange}
+            //onUserLocationChange={this.onUserLocationChange}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            //userLocationUpdateInterval={5000}
+            //userLocationFastestInterval={5000}
             zoomEnabled={true}
           >
+
             <Marker
               coordinate={{ latitude: latitud, longitude: longitud }}
               pinColor={"#14477e"}
@@ -121,7 +127,7 @@ const MapPage = ({ route, navigation }) => {
               description={userName}
             />
 
-            
+
 
             <Circle
               center={{
