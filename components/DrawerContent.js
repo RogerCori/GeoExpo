@@ -45,7 +45,6 @@ export function CustomDrawerContent(props) {
                 rounded
                 size={80}
                 source={{
-                  //uri: "https://www.totes.com.bo/App_totes/web/"+user.imagen,
                   uri: "https://www.totes.com.bo/App_totes/web/"+user.imagen,
                 }}
               />

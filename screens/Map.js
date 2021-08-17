@@ -58,8 +58,6 @@ const MapPage = ({ route, navigation }) => {
   }, []);
 
 
-
-
   const Registro = async () => {
     const latLong = `${latitud}, ${longitud}`;
 
@@ -100,6 +98,8 @@ const MapPage = ({ route, navigation }) => {
             Su ubicación Actual:
 
           </Headline>
+
+          
           <MapView
             style={styles.map}
             region={{

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { NavBar } from "./../components/AppBar";
+import * as Network from 'expo-network';
 
 const Contratos = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -29,6 +30,9 @@ const Contratos = ({ route, navigation }) => {
       radius: metros,
     });
   };
+
+  console.log(Network.getIpAddressAsync());
+  
 
   return (
     <>
