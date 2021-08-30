@@ -1,6 +1,5 @@
-import "react-native-gesture-handler";
-import React, { useEffect, useMemo, useReducer } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import LoginPage from "./screens/Login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./context/context";
@@ -8,15 +7,20 @@ import { User } from "./models/Users";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { CustomDrawerContent } from "./components/DrawerContent";
-import { Provider } from "react-native-paper";
+import { Provider, ActivityIndicator, Text } from "react-native-paper";
 import Seleccion from "./screens/Seleccion";
 import Contratos from "./screens/Contratos";
 import MapPage from "./screens/Map";
 import { navigationRef } from "./services/RootNavigator";
 
+import * as Location from "expo-location";
+
 const Dw = createDrawerNavigator();
 
 export default function App() {
+  const [permission, setPermission] = useState(Boolean);
+  const [location, setLocation] = useState();
+
   const initialLoginState = {
     userName: null,
     userCI: null,
@@ -68,12 +72,12 @@ export default function App() {
         }
         dispatch({ type: "LOGOUT" });
       },
-      goToIndex : () => {
+      goToIndex: () => {
         navigationRef.current.navigate("Seleccion");
       },
-      goToContracts : () => {
+      goToContracts: () => {
         navigationRef.current.navigate("Contratos");
-      }
+      },
     }),
     []
   );
@@ -90,6 +94,24 @@ export default function App() {
       dispatch({ type: "RETRIEVE_ID", ci: userCI });
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      setPermission(status === "granted");
+    })();
+  }, []);
+
+  if (!permission) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" animating={true} color="black" />
+        <Text style={{ marginTop: 35 }}>
+          Comprobando permisos de Ubicacion...
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <Provider>

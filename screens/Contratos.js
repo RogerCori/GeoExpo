@@ -6,9 +6,16 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Card, Title, Paragraph } from "react-native-paper";
+import {
+  Card,
+  Title,
+  Paragraph,
+  Divider,
+  Caption,
+  Text,
+} from "react-native-paper";
 import { NavBar } from "./../components/AppBar";
-import * as Network from 'expo-network';
+import * as Location from "expo-location";
 
 const Contratos = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -31,9 +38,6 @@ const Contratos = ({ route, navigation }) => {
     });
   };
 
-  console.log(Network.getIpAddressAsync());
-  
-
   return (
     <>
       <NavBar navigation={navigation} title={"Contratos"} icon={"menu"} />
@@ -45,17 +49,33 @@ const Contratos = ({ route, navigation }) => {
                 return (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      mapas(contrato.id_contrato, contrato.centro, contrato.metros);
+                      mapas(
+                        contrato.id_contrato,
+                        contrato.centro,
+                        contrato.metros
+                      );
                     }}
                     key={index}
                   >
-                    
                     <Card style={styles.card}>
                       <Card.Content>
-                        <Title style={styles.titulo}>{contrato.nom_empresa} - {contrato.nom_sucursal}</Title>
-                        <Paragraph style={styles.days}>{"Dias: "}{contrato.dias}</Paragraph>
-                        <Paragraph style={styles.hora}>{"Horario: "}{contrato.hora_inicio}{" - "}{contrato.hora_final}</Paragraph>
-                        <Paragraph>{contrato.direccion}</Paragraph>
+                        <Title style={styles.titulo}>
+                          {contrato.nom_empresa} - {contrato.nom_sucursal}
+                        </Title>
+                        <Divider />
+                        <Paragraph style={styles.days}>
+                          {"Dias: "}
+                          {contrato.dias}
+                        </Paragraph>
+                        <Text style={styles.hora}>
+                          {"Horario: "}
+                          {contrato.hora_inicio}
+                          {" - "}
+                          {contrato.hora_final}
+                        </Text>
+                        <Caption style={{ fontWeight: "bold" }}>
+                          {contrato.direccion}
+                        </Caption>
                       </Card.Content>
                     </Card>
                   </TouchableWithoutFeedback>
@@ -94,10 +114,12 @@ const styles = StyleSheet.create({
   days: {
     fontSize: 18,
     color: "#14477e",
+    marginVertical: 10,
   },
   hora: {
     fontSize: 15,
-    color: "#14477e",
+    padding: 10,
+    color: "#454D4E",
     backgroundColor: "#ec9220",
   },
 });

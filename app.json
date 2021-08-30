@@ -23,11 +23,16 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.totes.Asistencia",
-      "config" : {
-        "googleMaps" : {
-          "apiKey" : "AIzaSyBsieBv7WyYplNVtfHFyW1AurzPfJaDqFY"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBsieBv7WyYplNVtfHFyW1AurzPfJaDqFY"
         }
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

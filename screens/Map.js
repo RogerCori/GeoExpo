@@ -1,26 +1,15 @@
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import React, { useContext, useEffect, useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { Dimensions, StyleSheet, Text, View, Alert } from "react-native";
 import MapView, { Circle, Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 
-import { AuthContext } from "./../context/context";
 import { NavBar } from "../components/AppBar";
-import { Headline } from "react-native-paper";
+import { Headline, Button, Caption, Divider } from "react-native-paper";
 import { RegisterService } from "../services/RegisterService";
-import { Button } from "react-native-elements/dist/buttons/Button";
 
 const MapPage = ({ route, navigation }) => {
-  // console.log(route.params);
-
   const [boton, setBoton] = useState("");
   const [estado, setEstado] = useState(true);
   const [userName, setUserName] = useState("");
@@ -28,24 +17,18 @@ const MapPage = ({ route, navigation }) => {
   // const [text, onChangeText] = useState(null);
   const [ayuda, setAyuda] = useState("");
 
-  const [permisoGeo, setPermisoGeo] = useState(null);
   const [latitud, setLatitud] = useState(0);
   const [longitud, setLongitud] = useState(0);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      setPermisoGeo(status === "granted");
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLatitud(location.coords.latitude);
-      setLongitud(location.coords.longitude);
-
       const name = await AsyncStorage.getItem("nombre");
       setUserName(name);
       const ci = await AsyncStorage.getItem("ci");
       setCiUser(ci);
     })();
+
+    requestLocation();
 
     if (estado) {
       setBoton("Registrarse");
@@ -54,17 +37,40 @@ const MapPage = ({ route, navigation }) => {
       setBoton("Registrarse");
       //setAyuda("Entrada");
     }
-
   }, []);
 
+  /**
+   * Solicita la ubicacion
+   * En caso de no disponer la ubicacion exacta, trabaja con la ultima
+   * ubicacion conocida
+   */
+  const requestLocation = async () => {
+    let location;
+    try {
+      location = await Location.getCurrentPositionAsync({ accuracy: 6 });
+      // console.log("Ubicacion exacta : ", location);
+      setLatitud(location.coords.latitude);
+      setLongitud(location.coords.longitude);
+    } catch (error) {
+      location = await Location.getLastKnownPositionAsync({});
+      // console.log("Ultima ubicacion conocida : ", location);
+      setLatitud(location.coords.latitude);
+      setLongitud(location.coords.longitude);
+    }
+  };
 
   const Registro = async () => {
     const latLong = `${latitud}, ${longitud}`;
 
     const aux = estado;
-    console.log(estado)
-    const response = await RegisterService(ciUser, latLong, route.params.id_contrato, aux)
-    console.log(response)
+    console.log(estado);
+    const response = await RegisterService(
+      ciUser,
+      latLong,
+      route.params.id_contrato,
+      aux
+    );
+    console.log(response);
     Alert.alert("Listo !", "Registrado correctamente");
     setEstado(!estado);
 
@@ -75,16 +81,16 @@ const MapPage = ({ route, navigation }) => {
       setBoton("Registrarse");
       //setAyuda("Ingreso");
     }
-
   };
-
-  if (!permisoGeo) {
-    return <Text>Esperando permisos de Geolocalización</Text>;
-  }
 
   return (
     <>
       <NavBar navigation={navigation} title={"Ubicacion"} icon={"menu"} />
+      <Caption style={{ textAlign: "center" }}>
+        *Tenga en cuenta que la ubicacion puede no ser exacta, intente
+        actualizar un par de veces antes de marcar
+      </Caption>
+      <Divider />
       <View style={styles.container}>
         <View style={styles.mapsContainer}>
           <Headline
@@ -94,12 +100,16 @@ const MapPage = ({ route, navigation }) => {
               textAlign: "center",
             }}
           >
-
             Su ubicación Actual:
-
           </Headline>
 
-          
+          <Button
+            onPress={requestLocation}
+            mode="contained"
+            style={{ borderBottomEndRadius: 0, borderBottomStartRadius: 0 }}
+          >
+            Actualizar Ubicacion
+          </Button>
           <MapView
             style={styles.map}
             region={{
@@ -119,7 +129,6 @@ const MapPage = ({ route, navigation }) => {
             //userLocationFastestInterval={5000}
             zoomEnabled={true}
           >
-
             <Marker
               coordinate={{ latitude: latitud, longitude: longitud }}
               pinColor={"#14477e"}
@@ -127,14 +136,12 @@ const MapPage = ({ route, navigation }) => {
               description={userName}
             />
 
-
-
             <Circle
               center={{
                 latitude: +route.params.center.split(",")[0],
                 longitude: +route.params.center.split(",")[1],
               }}
-              radius={+route.params.radius+10}
+              radius={+route.params.radius + 10}
               strokeWidth={0}
               strokeColor={"#FFB66D"}
               fillColor={"rgba(255,152,49,0.5)"}
@@ -150,20 +157,12 @@ const MapPage = ({ route, navigation }) => {
               strokeColor={"#FF8102"}
               fillColor={"rgba(255,129,2,0.2)"}
             />
-
           </MapView>
           <View style={styles.button}>
-
-              <TouchableOpacity
-              activeOpacity={0}
-              style={styles.in}
-              onPress={Registro}
-            >
-              <Text style={{ fontSize: 22 }}>{boton}</Text>
-            </TouchableOpacity>
-
+            <Button style={styles.in} onPress={Registro}>
+              <Text style={{ fontSize: 18, color: "white" }}>{boton}</Text>
+            </Button>
           </View>
-
         </View>
         <StatusBar style="auto" />
       </View>
@@ -180,14 +179,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   mapsContainer: {
-    padding: 20,
+    padding: 10,
   },
   map: {
     width: Dimensions.get("window").width - 20,
-    height: Dimensions.get("window").height - 250,
+    height: Dimensions.get("window").height - 300,
   },
   button: {
-    flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     marginTop: 15,
