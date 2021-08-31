@@ -71,7 +71,7 @@ const MapPage = ({ route, navigation }) => {
       aux
     );
     console.log(response);
-    Alert.alert("Listo !", "Registrado correctamente");
+    Alert.alert("Listo !", "Se registró correctamente");
     setEstado(!estado);
 
     if (!estado) {
@@ -87,8 +87,8 @@ const MapPage = ({ route, navigation }) => {
     <>
       <NavBar navigation={navigation} title={"Ubicacion"} icon={"menu"} />
       <Caption style={{ textAlign: "center" }}>
-        *Tenga en cuenta que la ubicacion puede no ser exacta, intente
-        actualizar un par de veces antes de marcar
+        *Tenga en cuenta que la ubicación puede no ser exacta y dependerá de la 
+        velocidad de su internet, intente actualizar un par de veces antes de marcar*
       </Caption>
       <Divider />
       <View style={styles.container}>
@@ -108,7 +108,7 @@ const MapPage = ({ route, navigation }) => {
             mode="contained"
             style={{ borderBottomEndRadius: 0, borderBottomStartRadius: 0 }}
           >
-            Actualizar Ubicacion
+            Actualizar Ubicación
           </Button>
           <MapView
             style={styles.map}
