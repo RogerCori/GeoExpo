@@ -15,9 +15,12 @@ import {
   ActivityIndicator,
 } from "react-native-paper";
 import { RegisterService } from "../services/RegisterService";
+import { reqBtnState } from "./../services/btnState";
 
 const MapPage = ({ route, navigation }) => {
-  const [btnState, setBtnState] = useState(true);
+  const [btnIn, setBtnIn] = useState(Boolean);
+  const [btnOut, setBtnOut] = useState(Boolean);
+
   const [userName, setUserName] = useState("");
   const [ciUser, setCiUser] = useState("");
 
@@ -36,6 +39,7 @@ const MapPage = ({ route, navigation }) => {
     })();
 
     requestLocation();
+    requestStateBtn();
   }, []);
 
   /**
@@ -58,8 +62,25 @@ const MapPage = ({ route, navigation }) => {
     }
   };
 
+  const requestStateBtn = async () => {
+    const req = await reqBtnState(ciUser, route.params.id_contrato);
+    console.log(req);
+    /**
+     * 0 : Salida marcada => entrada activada, salida desactivada
+     * 1 : Entrada marcada => salida activada, entrada desactivada
+     */
+    if (req.in_out === "0") {
+      console.log("Salida marcada => entrada activada, salida desactivada");
+      setBtnIn(false);
+      setBtnOut(true);
+    } else {
+      console.log("Entrada marcada => salida activada, entrada desactivada");
+      setBtnIn(true);
+      setBtnOut(false);
+    }
+  };
+
   const Registro = async () => {
-    setBtnState(!btnState);
     setProcess(true);
     if (latitud === 0 || longitud === 0) {
       requestLocation();
@@ -74,8 +95,15 @@ const MapPage = ({ route, navigation }) => {
     );
     setProcess(false);
     // Valor In_out de la respuesta
-    console.log(response.split("**")[5]);
-    Alert.alert("Listo !", "Se registró correctamente");
+    // console.log(response.split("**")[5]);
+    Alert.alert("Listo !", "Se registró correctamente", [
+      {
+        text: "Aceptar",
+        onPress: () => {
+          requestStateBtn();
+        },
+      },
+    ]);
     setEstado(!estado);
   };
 
@@ -93,7 +121,6 @@ const MapPage = ({ route, navigation }) => {
     backgroundColor: "transparent",
     width: Dimensions.get("window").width - 50,
     height: Dimensions.get("window").height,
-    borderRadius: 5,
     marginHorizontal: 30,
     position: "absolute",
   };
@@ -169,15 +196,15 @@ const MapPage = ({ route, navigation }) => {
             </MapView>
             <View style={styles.btnContainer}>
               <Button
-                style={btnState ? btnActiveStyle : btnDisableStyle}
-                disabled={btnState ? false : true}
+                style={btnIn ? btnDisableStyle : btnActiveStyle}
+                disabled={btnIn}
                 onPress={Registro}
               >
                 <Text style={styles.btnText}>Ingreso</Text>
               </Button>
               <Button
-                style={btnState ? btnDisableStyle : btnActiveStyle}
-                disabled={btnState ? true : false}
+                style={btnOut ? btnDisableStyle : btnActiveStyle}
+                disabled={btnOut}
                 onPress={Registro}
               >
                 <Text style={styles.btnText}>Salida</Text>
