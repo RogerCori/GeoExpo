@@ -56,80 +56,92 @@ const Seleccion = ({ navigation }) => {
               </Card>
             </TouchableWithoutFeedback>
 
-
-
-            <TouchableWithoutFeedback onPress={() => {
-              Alert.alert(
-                "Solo para personal autorizado",
-                "C.I. inválido",
-                [{
-                    text: "Ok",
-                    onPress: () => console.log("No disponible"),
-                    style: "cancel",
-                },],
-                { cancelable: true }
-              );
-            }}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                Alert.alert(
+                  "Solo para personal autorizado",
+                  "C.I. inválido",
+                  [
+                    {
+                      text: "Ok",
+                      onPress: () => console.log("No disponible"),
+                      style: "cancel",
+                    },
+                  ],
+                  { cancelable: true }
+                );
+              }}
+            >
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
                     <Icon name="commenting" size={40} color="#ec9220" />
                     <Title style={styles.btnTitulo}> Mensaje</Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>Envía mensajes al supervisor</Paragraph>
+                  <Paragraph style={styles.btnTexto}>
+                    Envía mensajes al supervisor
+                  </Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
 
-
-            <TouchableWithoutFeedback onPress={() => {
-              Alert.alert(
-                "Solo para personal autorizado",
-                "C.I. inválido",
-                [{
-                    text: "Ok",
-                    onPress: () => console.log("No disponible"),
-                    style: "cancel",
-                },],
-                { cancelable: true }
-              );
-            }}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                Alert.alert(
+                  "Solo para personal autorizado",
+                  "C.I. inválido",
+                  [
+                    {
+                      text: "Ok",
+                      onPress: () => console.log("No disponible"),
+                      style: "cancel",
+                    },
+                  ],
+                  { cancelable: true }
+                );
+              }}
+            >
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
                     <Icon name="flask" size={40} color="#ec9220" />
                     <Title style={styles.btnTitulo}> Suministros</Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>Suministros por lugar</Paragraph>
+                  <Paragraph style={styles.btnTexto}>
+                    Suministros por lugar
+                  </Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
 
-
-            <TouchableWithoutFeedback onPress={() => {
-              Alert.alert(
-                "Solo para personal autorizado",
-                "C.I. inválido",
-                [{
-                    text: "Ok",
-                    onPress: () => console.log("No disponible"),
-                    style: "cancel",
-                },],
-                { cancelable: true }
-              );
-            }}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                Alert.alert(
+                  "Solo para personal autorizado",
+                  "C.I. inválido",
+                  [
+                    {
+                      text: "Ok",
+                      onPress: () => console.log("No disponible"),
+                      style: "cancel",
+                    },
+                  ],
+                  { cancelable: true }
+                );
+              }}
+            >
               <Card style={styles.card}>
                 <Card.Content>
                   <View style={styles.boton}>
                     <Icon name="check" size={40} color="#ec9220" />
                     <Title style={styles.btnTitulo}> Marcaje especial </Title>
                   </View>
-                  <Paragraph style={styles.btnTexto}>Solo para supervisores</Paragraph>
+                  <Paragraph style={styles.btnTexto}>
+                    Solo para supervisores
+                  </Paragraph>
                 </Card.Content>
               </Card>
             </TouchableWithoutFeedback>
-
-
           </View>
         </ScrollView>
       </View>

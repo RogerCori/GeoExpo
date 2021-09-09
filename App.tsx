@@ -17,11 +17,16 @@ import { navigationRef } from "./services/RootNavigator";
 import * as Location from "expo-location";
 import { LoadingSpinner } from "./screens/Loading";
 
+import * as Network from "expo-network";
+import { CloseApp } from "./screens/CloseApp";
+
 const Dw = createDrawerNavigator();
 
 export default function App() {
   const [permission, setPermission] = useState(Boolean);
   const [loading, setLoading] = useState(true);
+
+  const [infoNet, setInfoNet] = useState(Boolean);
 
   const initialLoginState = {
     userName: null,
@@ -85,7 +90,9 @@ export default function App() {
   );
 
   useEffect(() => {
+    retriveInfoNetwork();
     retriveUserCI();
+    requestLocationPermissions();
   }, []);
 
   const retriveUserCI = async () => {
@@ -96,15 +103,27 @@ export default function App() {
     }, 1000);
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      setPermission(status === "granted");
-    })();
-  }, []);
+  const requestLocationPermissions = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    setPermission(status === "granted");
+  };
+
+  const retriveInfoNetwork = async () => {
+    const net = await Network.getNetworkStateAsync();
+    if (net.isConnected && net.isInternetReachable) {
+      setInfoNet(true);
+    } else {
+      setInfoNet(false);
+    }
+  };
 
   if (!permission || loading) {
     return <LoadingSpinner />;
+  }
+
+  /** Control de conexion **/
+  if (true) {
+    return <CloseApp />;
   }
 
   return (

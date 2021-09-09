@@ -60,7 +60,7 @@ export const LoadingSpinner = () => {
         </style>
       `;
     let content = `
-        <p>Preparando aplicacion</p>
+        <p>Preparando la aplicacion..</p>
         <span class="load"></span>
     `;
 
