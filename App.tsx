@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import LoginPage from "./screens/Login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./context/context";
@@ -7,19 +7,21 @@ import { User } from "./models/Users";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { CustomDrawerContent } from "./components/DrawerContent";
-import { Provider, ActivityIndicator, Text } from "react-native-paper";
+import { Provider } from "react-native-paper";
 import Seleccion from "./screens/Seleccion";
 import Contratos from "./screens/Contratos";
 import MapPage from "./screens/Map";
+import { StatusBar } from "expo-status-bar";
 import { navigationRef } from "./services/RootNavigator";
 
 import * as Location from "expo-location";
+import { LoadingSpinner } from "./screens/Loading";
 
 const Dw = createDrawerNavigator();
 
 export default function App() {
   const [permission, setPermission] = useState(Boolean);
-  const [location, setLocation] = useState();
+  const [loading, setLoading] = useState(true);
 
   const initialLoginState = {
     userName: null,
@@ -83,17 +85,16 @@ export default function App() {
   );
 
   useEffect(() => {
-    setTimeout(async () => {
-      let userCI;
-      userCI = null;
-      try {
-        userCI = await AsyncStorage.getItem("ci");
-      } catch (e) {
-        console.log("Error", e);
-      }
-      dispatch({ type: "RETRIEVE_ID", ci: userCI });
-    }, 1000);
+    retriveUserCI();
   }, []);
+
+  const retriveUserCI = async () => {
+    setTimeout(async () => {
+      const userCI = await AsyncStorage.getItem("ci");
+      dispatch({ type: "RETRIEVE_ID", ci: userCI });
+      setLoading(false);
+    }, 1000);
+  };
 
   useEffect(() => {
     (async () => {
@@ -102,15 +103,8 @@ export default function App() {
     })();
   }, []);
 
-  if (!permission) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" animating={true} color="black" />
-        <Text style={{ marginTop: 35 }}>
-          Comprobando permisos de Ubicacion...
-        </Text>
-      </View>
-    );
+  if (!permission || loading) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -130,6 +124,7 @@ export default function App() {
           )}
         </NavigationContainer>
       </AuthContext.Provider>
+      <StatusBar style="auto" />
     </Provider>
   );
 }
