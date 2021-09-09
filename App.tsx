@@ -122,7 +122,7 @@ export default function App() {
   }
 
   /** Control de conexion **/
-  if (true) {
+  if (!infoNet) {
     return <CloseApp />;
   }
 
